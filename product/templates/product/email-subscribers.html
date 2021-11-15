@@ -1,0 +1,48 @@
+{% load static%}
+{% for product in products %}
+    {% if product.is_published %}
+    <div class="tab-pane fade active in" id="list">
+        <div class="col-xs-12">
+            <div class="single-list-view">
+                <div class="row">
+                    <div class="col-xs-12 col-md-4">
+                        <div class="list-img">
+                            <div class="product-img">
+                                <div class="pro-type sell">
+                                    <span>sell</span>
+                                </div>
+                                <a href="{{product.get_absolute_url}}"><img src="{{product.cover_image.url}}"
+                                        alt="Product Title" /></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-md-8">
+                        <div class="list-text">
+                            <h3>{{product.title}}</h3>
+                            <span>{{product.description|truncatechars:100}}</span>
+                            {% if product.discount_price %}
+                            <h5><del>{{product.price}} $</del> {{product.get_sale_price}} $</h5>
+                            {% else %}
+                            <h4>{{product.price}} $</h4>
+                            {% endif %}
+                            <p>{{product.content|truncatechars:100}}</p>
+                            <div class="list-btn">
+                                <form action="GET">
+                                    <input type="submit" name="clicked" id="addtoCart" onclick="addToCart({{product.id}})"
+                                        value="Add To Cart" data-product={{product.id}} data-action="add">
+                                </form>
+                                <a href="#">wishlist</a>
+                                <a href="#" data-toggle="modal" data-target="#quick-view">zoom</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- single product end -->
+
+
+
+        </div>
+    </div>
+    {% endif %}
+{% endfor %}

@@ -1,0 +1,60 @@
+{% extends "core/base.html" %}
+{% load static i18n %}
+{% block content %}
+        <!-- pages-title-start -->
+		<div class="pages-title section-padding">
+			<div class="container">
+				<div class="row">
+					<div class="col-xs-12">
+						<div class="pages-title-text text-center">
+							<h2>Blog</h2>
+							<ul class="text-left">
+								<li><a href="index.html">{% trans 'Home' %}</a></li>
+								<li><span> // </span>Blog</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- pages-title-end -->
+        <!-- blog section start -->
+		<section class="latest-blog section-padding">
+			<div class="container">
+				<ul class="blog-row clearfix">
+					<li>
+						<div class="row">
+						{% for blog in blogpost_list %}
+							{% if blog.is_published %}
+							<div class="col-sm-4" style="padding-top: 15px;">
+								<div class="l-blog-text">
+									<div class="banner"><a href="{{blog.get_absolute_url}}"><img src="{{blog.image.url}}" alt="" /></a></div>
+									<div class="s-blog-text">
+										<h4><a href="{{blog.get_absolute_url}}"> {{blog.title}} </a></h4>
+										<span>By : <a href="#">{{blog.author}}</a> | <a href="{{blog.get_absolute_url}}">{{blog.like.count}} Like{{blog.like.count|pluralize}}</a> | <a href="#">{{blog.comments.count}} Comments</a></span>
+										<p>{{blog.content|truncatewords:40}}</p>
+									</div>
+									<div class="date-read clearfix">
+										<a href="{{blog.get_absolute_url}}"><i class="mdi mdi-clock"></i> {{blog.created_at|date:"M d, Y"}}</a>
+										<a href="{{blog.get_absolute_url}}">{% trans 'read more' %}</a>
+									</div>
+								</div>
+							</div>
+							{% endif %}
+						{% endfor %}
+						</div>
+					</li>
+				</ul>
+				<div class="pagnation-ul">
+					<ul class="clearfix">
+						<li><a href="?page={{ page_obj.previous_page }}"><i class="mdi mdi-menu-left"></i></a></li>
+						{% for page in page_obj.paginator.page_range %}
+						<li><a href="?page= {{page}}">{{page}}</a></li>
+						{% endfor %}
+						<li><a href="?page={{ page_obj.next_page }}"><i class="mdi mdi-menu-right"></i></a></li>
+					</ul>
+				</div>
+			</div>
+		</section>
+		<!-- blog section end -->
+{% endblock %}

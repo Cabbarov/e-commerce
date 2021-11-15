@@ -1,0 +1,75 @@
+{% extends "core/base.html" %} 
+{% load static %}
+{% block content %}
+        <!-- pages-title-start -->
+		<div class="pages-title section-padding">
+			<div class="container">
+				<div class="row">
+					<div class="col-xs-12">
+						<div class="pages-title-text text-center">
+							<h2>Wishlist</h2>
+							<ul class="text-left">
+								<li><a href="index.html">Home </a></li>
+								<li><span> // </span>Wishlist</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- pages-title-end -->
+		<!-- wishlist content section start -->
+		<section class="pages wishlist-page section-padding">
+			<div class="container">
+				<div class="row">
+					<div class="col-xs-12">
+						<div class="table-responsive padding60">
+							<table class="wishlist-table text-center">
+								<thead>
+									<tr>
+										<th>Product</th>
+										<th>Price</th>
+										<th>Stock Status </th>
+										<th>Add To Cart</th>
+										<th>Remove</th>
+									</tr>
+								</thead>
+								<tbody>
+
+									{% for item in wishlist_items %}
+									<tr>
+										<td class="td-img text-left">
+											<a href="#"><img src="{{item.product.cover_image.url}}" alt="Add Product" /></a>
+											<div class="items-dsc">
+												<h5><a href="#">{{item.product.title}}</a></h5>
+												<p id="changecolor" class="itemcolor">Color : <span><div style="margin-left: 160px; margin-top: -20px; height: 20px; width: 20px; background-color:{{color_title}};"></div></span></p>
+												<p class="itemcolor">Size   : <span id="pickedsize" >{{product_option}}</span></p>
+											</div>
+										</td>
+										<td>$ {{item.product.get_final_price}}</td>
+										{% if item.product.in_stock %}
+											<td>In Stock</td>
+										{% else %}
+											<td>Not In Stock</td>
+										{% endif %}
+										<td>
+											<div class="submit-text">
+												<form action="#" method="post" id="addtocart-form" class="addtocart-form">
+													{% csrf_token %}
+												<input type="submit" name="addtocart" id="addtocart" value="Add To Cart" data-product="{{item.product.id}}">
+												</form>
+											</div>
+										</td>
+										<td><i class="mdi mdi-close" title="Remove this product" onclick="removeitem({{item.product.id}})"></i></td>
+									</tr>
+									{% endfor %}
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+		<!-- wishlist content section end -->
+{% endblock %}
+

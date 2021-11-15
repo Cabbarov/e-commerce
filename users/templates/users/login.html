@@ -1,0 +1,88 @@
+{% extends "core/base.html" %} 
+{% block content %}
+        <!-- pages-title-start -->
+		<div class="pages-title section-padding">
+			<div class="container">
+				<div class="row">
+					<div class="col-xs-12">
+						<div class="pages-title-text text-center">
+							<h2>Register</h2>
+							<ul class="text-left">
+								<li><a href="index.html">Home </a></li>
+								<li><span> // </span>Register</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- pages-title-end -->
+		<!-- login content section start -->
+		<section class="pages login-page section-padding">
+			<div class="container">
+				<div class="row">
+					<div class="col-sm-6">
+						<div class="main-input padding60">
+							<div class="log-title">
+								<h3><strong>registered customers</strong></h3>
+							</div>
+							<div class="login-text">
+								<div class="custom-input">
+									<p>If you have an account with us, Please log in!</p>
+									<form action="" method="post">
+											{% csrf_token %}
+										{{form.non_field_errors}}
+										{% for field in login_form %}
+											{{field}}
+											{% for error in field.errors %}
+												{{error}}
+											{% endfor %}
+										{% endfor %}
+										<a class="forget" href="{% url 'password-reset-view' %}">Forget your password?</a>
+										<div class="submit-text">
+											<input type="hidden" name="next" value="{{ request.GET.next }}">
+											<input type="submit" name="login" value="Login" />
+										</div>
+										<div class="social-login " style="display: flex;justify-content: space-between;">
+											<a href="{% url 'social:begin' 'google-oauth2' %}">Google</a>
+											<a href="{% url 'social:begin' 'facebook' %}">Facebook</a>
+										</div>
+										
+									</form>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-sm-6">
+						<div class="main-input padding60 new-customer">
+							<div class="log-title">
+								<h3><strong>new customers</strong></h3>
+							</div>
+							<div class="custom-input">
+								<form action="" method="POST">
+									{% csrf_token %}
+									{% for field in register_form %}
+									{% for error in field.errors %}
+									<li class="text-danger">{{error}}</li>
+									{% endfor %}
+									{% endfor %}
+									{{register_form.username}}
+									{{register_form.email}}
+									{{register_form.phone_number}}
+									{{register_form.password1}}
+									{{register_form.password2}}	
+										<input type="radio" name="rememberme" value="forever">
+										Sign up for our newsletter!
+									</label>
+									<div class="submit-text coupon">
+										<input type="submit" name="register" value="Register" />
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+		<!-- login content section end -->
+{% endblock %}

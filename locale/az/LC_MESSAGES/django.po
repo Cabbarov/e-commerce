@@ -1,0 +1,185 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2021-07-16 23:54-0700\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: blog/templates/blog/blog.html:12 core/templates/core/include/navbar.html:98
+#: core/templates/core/include/navbar.html:162
+msgid "Home"
+msgstr "Ana səhifə"
+
+#: blog/templates/blog/blog.html:39
+msgid "read more"
+msgstr "Ətraflı"
+
+#: core/templates/core/include/footer.html:27
+msgid "newsletter"
+msgstr "Xəbərlər"
+
+#: core/templates/core/include/footer.html:31
+msgid "subscribe"
+msgstr "Abunə ol"
+
+#: core/templates/core/include/footer.html:49
+msgid "get in touch"
+msgstr "Əlaqədə ol"
+
+#: core/templates/core/include/footer.html:59
+msgid "send your message"
+msgstr "Göndər"
+
+#: core/templates/core/include/footer.html:75
+msgid "Contact us"
+msgstr "Əlaqə"
+
+#: core/templates/core/include/footer.html:101
+msgid "my account"
+msgstr "Profilim"
+
+#: core/templates/core/include/footer.html:118
+msgid "shipping"
+msgstr "Çatdırılma"
+
+#: core/templates/core/include/footer.html:135
+msgid "Information"
+msgstr "Məlumat"
+
+#: core/templates/core/include/navbar.html:100
+msgid "Home version one"
+msgstr ""
+
+#: core/templates/core/include/navbar.html:101
+msgid "Home version two"
+msgstr ""
+
+#: core/templates/core/include/navbar.html:104
+#: core/templates/core/include/navbar.html:168
+msgid "Shop"
+msgstr "Alış-veriş"
+
+#: core/templates/core/include/navbar.html:134
+#: core/templates/core/include/navbar.html:196
+msgid "Pages"
+msgstr "Səhifələr"
+
+#: core/templates/core/include/navbar.html:145
+#: core/templates/core/include/navbar.html:209
+msgid "Blog"
+msgstr "Blog"
+
+#: core/templates/core/include/navbar.html:152
+#: core/templates/core/include/navbar.html:216
+msgid "About"
+msgstr "Haqqında"
+
+#: core/templates/core/include/navbar.html:153
+#: core/templates/core/include/navbar.html:217
+msgid "Contact"
+msgstr "Əlaqə"
+
+#: product/models.py:49
+msgid "parent_category"
+msgstr "Ana kateqoriya"
+
+#: product/models.py:52
+msgid "Main Category"
+msgstr "Kateqoriya"
+
+#: product/models.py:59
+msgid "Category"
+msgstr "Kateqoriya"
+
+#: product/models.py:60
+msgid "Categories"
+msgstr "Kateqoriyalar"
+
+#: sellshop_project/settings.py:208
+msgid "Azerbaijan"
+msgstr ""
+
+#: sellshop_project/settings.py:209
+msgid "English"
+msgstr ""
+
+#: users/forms.py:63 users/forms.py:132
+msgid "Password"
+msgstr ""
+
+#: users/forms.py:72
+msgid "Password confirmation"
+msgstr ""
+
+#: users/forms.py:78
+msgid "Enter the same password as before, for verification."
+msgstr ""
+
+#: users/forms.py:142
+msgid "Email"
+msgstr ""
+
+#: users/forms.py:151 users/forms.py:180
+msgid "New password"
+msgstr ""
+
+#: users/forms.py:160 users/forms.py:189
+msgid "New password confirmation"
+msgstr ""
+
+#: users/forms.py:171
+msgid "Old password"
+msgstr ""
+
+#: users/models.py:23
+msgid "email address"
+msgstr ""
+
+#: users/templates/users/email/password_reset_email.html:2
+#, python-format
+msgid ""
+"You're receiving this email because you requested a password reset for your "
+"user account at %(site_name)s."
+msgstr ""
+
+#: users/templates/users/email/password_reset_email.html:4
+msgid "Please go to the following page and choose a new password:"
+msgstr ""
+
+#: users/templates/users/email/password_reset_email.html:8
+msgid "Your username, in case you’ve forgotten:"
+msgstr ""
+
+#: users/templates/users/email/password_reset_email.html:10
+msgid "Thanks for using our site!"
+msgstr ""
+
+#: users/templates/users/email/password_reset_email.html:12
+#, python-format
+msgid "The %(site_name)s team"
+msgstr ""
+
+#: users/templates/users/reset_password.html:30
+msgid ""
+"The password reset link was invalid, possibly because it has already been "
+"used.  Please request a new password reset."
+msgstr ""
+
+#~ msgid "home"
+#~ msgstr "Ana səhifə"
+
+#~ msgid "category"
+#~ msgstr "Kateqoriya"

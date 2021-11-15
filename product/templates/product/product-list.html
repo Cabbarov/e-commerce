@@ -1,0 +1,502 @@
+{% extends "core/base.html" %}
+{% load static custom_tags %}
+{% block content %}
+<!-- pages-title-start -->
+<div class="pages-title section-padding">
+	<div class="container">
+		<div class="row">
+			<div class="col-xs-12">
+				<div class="pages-title-text text-center">
+					<h2>Product List View</h2>
+					<ul class="text-left">
+						<li><a href="{%url 'index' %}">Home </a></li>
+						<li><span> // </span>Shop</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- pages-title-end -->
+<!-- collection section start -->
+<section class="collection-area collection-area2 section-padding">
+	<div class="container">
+		<div class="row">
+			<div class="col-sm-4">
+				<div class="single-colect banner collect-one">
+					<a href="#"><img src="{% static 'img/products/zaralogo.jpeg' %}" alt="" /></a>
+				</div>
+			</div>
+			<div class="col-sm-4">
+				<div class="colect-text ">
+					<h4><a href="#">Fashion Collection 2021</a></h4>
+					<h5>big sale of the men 2021 fashion <br /> Up To 23% Off!</h5>
+					<a href="#">Shop Now <i class="mdi mdi-arrow-right"></i></a>
+				</div>
+				<div class="collect-img banner margin single-colect">
+					<a href="#"><img src="{% static 'img/collect/5.jpg '%}" alt="" /></a>
+				</div>
+			</div>
+			<div class="col-sm-4">
+				<div class="collect-img banner single-colect">
+					<a href="#"><img src="{% static 'img/collect/6.jpg '%}" alt="" /></a>
+				</div>
+				<div class="colect-text ">
+					<h4><a href="#">Men’s Collection 2021</a></h4>
+					<p>There are many variations of passages of Lorem Ipsum avalabbut the majority have suffered
+						alteration in some form.</p>
+					<a href="#">Shop Now <i class="mdi mdi-arrow-right"></i></a>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+<!-- collection section end -->
+<!-- product-list-view content section start -->
+<section class="pages products-page section-padding-bottom">
+	<div class="container">
+		<div class="row">
+			<div class="col-xs-12 col-sm-4 col-md-3">
+				<div class="sidebar left-sidebar">
+					<div class="s-side-text">
+						<div class="sidebar-title clearfix">
+							<h4 class="floatleft">Categories</h4>
+							
+						</div>
+						<div class="categories left-right-p">
+							<ul id="accordion" class="panel-group clearfix">
+								{% get_categories as categories %}
+								{% for cat in categories%}
+								<li class="panel">
+									<div data-toggle="collapse" data-parent="#accordion"
+										data-target="#collapse{{cat.id}}">
+										<div class="medium-a">
+											<input type="checkbox" class="filters" data-filter="Category" value="{{cat.id}}">
+											{{cat.title}}
+										</div>
+									</div>
+									<div class="panel-collapse collapse in" id="collapse{{cat.id}}">
+										{% for subcat in cat.parent_category.all%}
+										<div class="normal-a" style="margin-left: 5rem;">
+											<input type="checkbox" class="filters" data-filter="Category" value="{{subcat.id}}">
+											{{subcat.title}}
+
+										</div>
+										{% endfor %}
+									</div>
+								</li>
+								{% endfor %}
+							</ul>
+						</div>
+					</div>
+					<div class="s-side-text">
+						<div class="sidebar-title">
+							<h4>price</h4>
+						</div>
+						<div class="range-slider clearfix">
+							<form action="#" method="get">
+								<label><span class="mr-3">You range:</span>{{minMaxPrice.price__min}}-{{minMaxPrice.price__max}}</label>
+								<input value="{{minMaxPrice.price__min}}" oninput="maxPrice.value=this.value"  id="rangeInput" min="{{minMaxPrice.price__min}}" max="{{minMaxPrice.price__max}}" type="range" ></input>
+							</form>
+						</div>
+						<div style="border-top: 1px solid rgb(204, 196, 196);">
+							Max: <input value="{{minMaxPrice.price__min}}" style="margin: 10px;"  onkeyup="rangeInput.value=this.value" type="number" id="maxPrice" min="{{minMaxPrice.price__min}}" max="{{minMaxPrice.price__max}}">
+							<button id="priceFilterBtn" class="btn btn-secondary btn-sm">Filter</button>
+						</div>
+					</div>
+					<div class="s-side-text" style="padding-bottom: 2rem;">
+						<div class="sidebar-title clearfix" style="margin-bottom: 2rem;">
+							<h4 class="floatleft">color</h4>
+							
+						</div>
+						
+						{% for color in category_colors %}
+						
+								<input type="checkbox" class="filters" data-filter="Color" value="{{color.id}}">
+								<span style="display: inline-block;height: 20px;width: 20px; background-color:{{color}}"></span>
+						
+						{% endfor %}
+					</div>
+					{% get_properties as properties%}
+					{% for property in properties%}
+					<div class="s-side-text">
+						<div class="sidebar-title clearfix">
+							<h4 class="floatleft">{{property.title}}</h4>
+							<h5 class="floatright"><a href="#">All</a></h5>
+						</div>
+						<div class="size-select clearfix" >
+							
+							<ul style="padding-top: 2rem;padding-bottom: 4rem;">
+								<li>
+									{% for propertioption in property.options.all%}
+										<input type="checkbox" class="filters" data-filter="{{property.title}}" value="{{propertioption.id}}">
+										<span  style="border: 1px solid black;padding: 4px;">{{propertioption.title}}</span>
+									{% endfor %}
+								</li>
+							</ul>
+						</div>
+					</div>
+					{% endfor %}
+					<div class="s-side-text">
+						<div class="banner clearfix">
+							<a href="#"><img src="{% static 'img/products/zaralogo.jpeg' %}" alt="" /></a>
+							<div class="banner-text">
+								<h2>best</h2> <br />
+								<h2 class="banner-brand">brand</h2>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-xs-12 col-sm-8 col-md-9">
+				<div class="right-products">
+					<div class="row">
+						<div class="col-xs-12">
+							<div class="section-title clearfix">
+								<ul>
+									<li>
+										<ul class="nav-view">
+											<li><a data-toggle="tab" href="#grid"> <i class="mdi mdi-view-module"></i> </a></li>
+											<li class="active"><a data-toggle="tab" href="#list"> <i class="mdi mdi-view-list"></i> </a></li>
+										</ul>
+									</li>
+									<li class="sort-by floatright">
+										
+										Showing 4 of {{page_obj.paginator.count}} Results
+										
+									</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="tab-content grid-content">
+							<div class="tab-pane fade in text-center" id="grid">
+								{% for product in product_list %}
+								{% if product.is_published %}
+								<div class="col-xs-12 col-sm-6 col-md-4" id="filteredProducts1" >
+									<div class="single-product">
+										<div class="product-img">
+											<div class="pro-type">
+												<span>new</span>
+											</div>
+											<a href="{{product.get_absolute_url}}"><img src="{{product.cover_image.url}}"
+													alt="Product Title" /></a>
+											<div class="actions-btn">
+												<a href="#"><i class="mdi mdi-cart"></i></a>
+												<a href="#" data-toggle="modal" data-target="#{{product.id}}"><i
+														class="mdi mdi-eye"></i></a>
+												<a href="#"><i class="mdi mdi-heart"></i></a>
+											</div>
+										</div>
+										<div class="product-dsc">
+											<p><a href="#">{{product.category.title}}’S {{product.title}}</a></p>
+											<div class="ratting">
+												<i
+													class="mdi mdi-star{% if product.avarage_rating < 1 %}-outline {% endif %}"></i>
+												<i
+													class="mdi mdi-star{% if product.avarage_rating < 2 %}-outline {% endif %}"></i>
+												<i
+													class="mdi mdi-star{% if product.avarage_rating < 3 %}-outline {% endif %}"></i>
+												<i
+													class="mdi mdi-star{% if product.avarage_rating < 4 %}-outline {% endif %}"></i>
+												<i
+													class="mdi mdi-star{% if product.avarage_rating < 5 %}-outline {% endif %}"></i>
+											</div>
+											{% if product.discount_price %}
+											<h5><del>{{product.price}} $</del><br> {{product.get_final_price}} $</h5>
+											{% else %}
+											<span>{{product.price}} $</span>
+											{% endif %}
+											
+										</div>
+									</div>
+								</div>
+								<!-- single product end -->
+								{% endif %}
+								{% endfor %}
+							</div>
+							
+							<div class="tab-pane fade active in" id="list">
+								<div id="filteredProducts">
+									{% for product in product_list %}
+									{% if product.is_published %}
+									<p class="ajaxLoader">Loading...</p>
+									<div class="col-xs-12">
+										<div class="single-list-view">
+											<div class="row">
+												<div class="col-xs-12 col-md-4">
+													<div class="list-img">
+														<div class="product-img">
+															<div class="pro-type sell">
+																{% if product.tags.first != None %}
+																	<span>{{product.tags.first}}</span>
+																{% else %}
+																	<span>Sell</span>
+																{% endif %}
+															</div>
+															<a href="{{product.get_absolute_url}}"><img
+																	src="{{product.cover_image.url}}"
+																	alt="Product Title" /></a>
+														</div>
+													</div>
+												</div>
+												<div class="col-xs-12 col-md-8" >
+													<div class="list-text">
+														<h3>{{product.category.title}}’S {{product.title}}</h3>
+														<span>{{product.description|truncatechars:100}}</span>
+														<div class="ratting floatright">
+															<p>( {{product.reviews.count}} Rating )</p>
+															<span class="floatright ratting">
+																<i
+																	class="mdi mdi-star{% if product.avarage_rating < 1 %}-outline {% endif %}"></i>
+																<i
+																	class="mdi mdi-star{% if product.avarage_rating < 2 %}-outline {% endif %}"></i>
+																<i
+																	class="mdi mdi-star{% if product.avarage_rating < 3 %}-outline {% endif %}"></i>
+																<i
+																	class="mdi mdi-star{% if product.avarage_rating < 4 %}-outline {% endif %}"></i>
+																<i
+																	class="mdi mdi-star{% if product.avarage_rating < 5 %}-outline {% endif %}"></i>
+															</span>
+														</div>
+														{% if product.discount_price %}
+														<h5><del>{{product.price}} $</del> {{product.get_final_price}} $</h5>
+														{% else %}
+														<h4>{{product.price}} $</h4>
+														{% endif %}
+														<p>{{product.content|truncatechars:100}}</p>
+														<div class="list-btn">
+															<a href="#">Add  to Cart</a>
+															<a href="#">wishlist</a>
+															<a href="#" data-toggle="modal"
+																data-target="#{{product.id}}">zoom</a>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+										<!-- single product end -->
+									</div>
+									{% endif %}
+									{% endfor %}
+								</div>
+								
+							</div>
+						</div>
+					</div>
+					<!-- Pagination -->
+					<div class="row">
+						<div class="col-sm-12">
+							<div class="pagnation-ul">
+								<nav aria-label="...">
+									<ul class="pagination">
+										{% if page_obj.has_previous %}
+									  	<li class="page-item">
+											<a class="page-link" href="?page={{ page_obj.previous_page_number }}" tabindex="-1" aria-disabled="true">Previous</a>
+									 	</li>
+										{% endif %}
+										{% for i in page_obj.paginator.page_range %}
+										  	{% if page_obj.number == i %}
+											<li class="page-item">
+												<a class="page-link" href="?page={{i}}">{{i}}</a>
+												
+											</li>
+											{% else %}
+											<li class="page-item"><a class="page-link" href="?page={{i}}">{{i}}</a></li>
+										  	{% endif %}
+									  	{% endfor %}
+										
+									  	{% if page_obj.has_next %}
+									  	<li class="page-item">
+											<a class="page-link" href="?page={{ page_obj.next_page_number }}" tabindex="-1" aria-disabled="true">Next</a>
+									  	</li>
+									  	{% endif %}
+									</ul>
+								  </nav>
+							</div>
+							<!-- <div class="pagination">
+								<span class="step-links">
+									{% if product_list.has_previous %}
+										<a href="?page=1">&laquo; first</a>
+										<a href="?page={{ product_list.previous_page_number }}">previous</a>
+									{% endif %}
+							
+									<span class="current">
+										Page {{ product_list.number }} of {{ product_list.paginator.num_pages }}.
+									</span>
+							
+									{% if profuct_list.has_next %}
+										<a href="?page={{ product_list.next_page_number }}">next</a>
+										<a href="?page={{ product_list.paginator.num_pages }}">last &raquo;</a>
+									{% endif %}
+								</span>
+							</div> -->
+						</div>
+					</div>
+					<!-- Pagination end -->
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+<!-- product-list-view content section end -->
+<!-- quick view start -->
+{% for product in product_list%}
+<div class="product-details quick-view modal animated zoomInUp" id="{{product.id}}">
+	<div class="container">
+		<div class="row">
+			<div class="col-xs-12">
+				<div class="d-table">
+					<div class="d-tablecell">
+						<div class="modal-dialog">
+							<div class="main-view modal-content">
+								<div class="modal-footer" data-dismiss="modal">
+									<span>x</span>
+								</div>
+								<div class="row">
+									<div class="col-xs-12 col-sm-5 col-md-4">
+										<div class="quick-image">
+											<div class="single-quick-image text-center">
+												<div class="list-img">
+													<div class="product-img tab-content">
+														<div class="simpleLens-container tab-pane fade in" id="sin-1">
+															<div class="pro-type">
+																<span>new</span>
+															</div>
+															<a class="simpleLens-image" data-lens-image="img/products/z1.jpg" href="#"><img src="{% static 'img/products/z1.jpg' %}" alt="" class="simpleLens-big-image"></a>
+														</div>
+														<div class="simpleLens-container tab-pane active fade in" id="sin-2">
+															<div class="pro-type sell">
+																{% if product.tags.first != None %}
+																	<span>{{product.tags.first}}</span>
+																{% else %}
+																<span>New</span>
+																{% endif %}
+															</div>
+															<a class="simpleLens-image" data-lens-image="{{product.cover_image.url}}" href="#"><img id="product-image" src="{{product.cover_image.url}}" alt="" class="simpleLens-big-image"></a>
+														</div>
+														<div class="simpleLens-container tab-pane fade in" id="sin-3">
+															<div class="pro-type">
+																<span>-15%</span>
+															</div>
+															<a class="simpleLens-image" data-lens-image="img/products/z3.jpg" href="#"><img src="{% static 'img/products/z3.jpg' %}" alt="" class="simpleLens-big-image"></a>
+														</div>
+									
+														<div class="simpleLens-container tab-pane fade in" id="sin-4">
+															<div class="pro-type">
+																<span>new</span>
+															</div>
+															<a class="simpleLens-image" data-lens-image="img/products/z4.jpg" href="#"><img src="" alt="" class="simpleLens-big-image"></a>
+														</div>
+													</div>
+												</div>
+											</div>
+											<div class="quick-thumb">
+												<ul class="product-slider">
+													{% for image in product.small_images.all %}
+													<li><a data-toggle="tab" href="#sin-1"> <img src="{{image.small_images.url}}" alt="quick view" /> </a></li>
+													{% endfor %}
+												</ul>
+											</div>
+										</div>
+									</div>
+									<div class="col-xs-12 col-sm-7 col-md-8">
+										
+										<div class="quick-right">
+											<div class="list-text">
+												<h3>{{product.category.title}}’S {{product.title}}11</h3>
+												<span>{{product.description}}</span>
+												<div class="ratting floatright">
+													<p>( {{product.reviews.count}} Rating )</p>
+													<span class="floatright ratting">
+														<i class="mdi mdi-star{% if product.avarage_rating < 1 %}-outline {% endif %}"></i>
+														<i class="mdi mdi-star{% if product.avarage_rating < 2 %}-outline {% endif %}"></i>
+														<i class="mdi mdi-star{% if product.avarage_rating < 3 %}-outline {% endif %}"></i>
+														<i class="mdi mdi-star{% if product.avarage_rating < 4 %}-outline {% endif %}"></i>
+														<i class="mdi mdi-star{% if product.avarage_rating < 5 %}-outline {% endif %}"></i>
+													</span>
+												</div>
+												{% if product.discount_price %}
+												<h5><del class="product-price">{{product.price}} $</del> {{product.get_sale_price}} $</h5>
+												{% else %}
+												<h4 id="product-price">{{product.price}} </h4>
+												{% endif %}
+												<p>{{product.content|truncatechars:140}}</p>
+												<div class="all-choose">
+													<!-- <div class="s-shoose">
+														<h5>Color</h5>
+														<div class="color-select clearfix">
+															{% for color in product.color.all %}
+																<span id="product-color" style="background-color:{{color}}"></span>											
+															{% endfor %}
+														</div>
+													</div> -->
+													<div class="s-shoose">
+														<h5>size</h5>
+											<div class="size-drop">
+												<div class="btn-group">
+													<button type="button" class="btn">{{product.properity_options.first.title}}</button>
+													<button type="button" class="btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+														<span class=""><i class="mdi mdi-chevron-down"></i></span>
+													</button>
+													<ul class="dropdown-menu">
+														{% for option in product.properity_options.all %}
+														<li><a href="#">{{option.title}}</a></li>
+														{% endfor %}
+													</ul>
+												</div>
+											</div>
+													</div>
+													<div class="s-shoose">
+														<h5>qty</h5>
+														<form action="#" method="POST">
+															<div class="plus-minus">
+																<a class="dec qtybutton">-</a>
+																<input type="text" value="02" name="qtybutton"
+																	class="plus-minus-box">
+																<a class="inc qtybutton">+</a>
+															</div>
+														</form>
+													</div>
+												</div>
+												<div class="list-btn">
+													<a href="#">Add to cart</a>
+													<a href="#">wishlist</a>
+												</div>
+												<div class="share-tag clearfix">
+													<ul class="blog-share floatleft">
+														<li>
+															<h5>share </h5>
+														</li>
+														<li><a href="#"><i class="mdi mdi-facebook"></i></a></li>
+														<li><a href="#"><i class="mdi mdi-twitter"></i></a></li>
+														<li><a href="#"><i class="mdi mdi-linkedin"></i></a></li>
+														<li><a href="#"><i class="mdi mdi-vimeo"></i></a></li>
+														<li><a href="#"><i class="mdi mdi-dribbble"></i></a></li>
+														<li><a href="#"><i class="mdi mdi-instagram"></i></a></li>
+													</ul>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endfor %}
+<!-- quick view end -->
+<!-- footer section start -->
+{% endblock %}
+
+
+
+{% block js %}
+<!-- to filter products on products page -->
+<script src="{% static 'js/filtering.js' %}"></script>
+{% endblock %}

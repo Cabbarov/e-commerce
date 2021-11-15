@@ -1,0 +1,147 @@
+{% extends "core/base.html" %}
+{% load static custom_tags i18n %}
+{% block content %}
+<div class="container" id="filteredProducts">
+    <div class="row">
+        {% if blogpost_list %}
+        <h1 style="margin-top: 20px;">Blogs</h1>
+        {% for blog in blogpost_list %}
+        {% if blog.is_published %}
+            <div class="col-sm-4" style="padding-top: 15px;">
+                <div class="l-blog-text">
+                    <div class="banner"><a href="{{blog.get_absolute_url}}"><img src="{{blog.image.url}}" alt="" /></a></div>
+                    <div class="s-blog-text">
+                        <h4><a href="{{blog.get_absolute_url}}">{{blog.category}}</a></h4>
+                        <span>By : <a href="#">{{blog.author}}</a> | <a href="{{blog.get_absolute_url}}">{{blog.likes.count}} Like{{blog.likes.count|pluralize}}</a> | <a href="#">{{blog.comments.count}} Comments</a></span>
+                        <p>{{blog.content|truncatewords:35}}</p>
+                    </div>
+                    <div class="date-read clearfix">
+                        <a href="{{blog.get_absolute_url}}"><i class="mdi mdi-clock"></i> {{blog.created_at|date:"M d, Y"}}</a>
+                        <a href="{{blog.get_absolute_url}}">{% trans 'read more' %}</a>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+        {% endfor %}
+        {% endif %}
+    </div>
+    {% if product_list %}
+    <h1 style="margin-top: 20px;">Products</h1>
+    {% for product in product_list %}
+    {% if product.is_published %}
+    <div class="tab-pane fade active in" id="list">
+        <div class="col-xs-12">
+            <div class="single-list-view">
+                <div class="row">
+                    <div class="col-xs-12 col-md-4">
+                        <div class="list-img">
+                            <div class="product-img">
+                                <div class="pro-type sell">
+                                    <span>sell</span>
+                                </div>
+                                <a href="{{product.get_absolute_url}}"><img
+                                        src="{{product.cover_image.url}}"
+                                        alt="Product Title" /></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-md-8" >
+                        <div class="list-text">
+                            <h3>{{product.category.title}}’S {{product.title}}</h3>
+                            <span>{{product.description|truncatechars:100}}</span>
+                            <div class="ratting floatright">
+                                <p>( {{product.reviews.count}} Rating )</p>
+                                <span class="floatright ratting">
+                                    <i
+                                        class="mdi mdi-star{% if product.avarage_rating < 1 %}-outline {% endif %}"></i>
+                                    <i
+                                        class="mdi mdi-star{% if product.avarage_rating < 2 %}-outline {% endif %}"></i>
+                                    <i
+                                        class="mdi mdi-star{% if product.avarage_rating < 3 %}-outline {% endif %}"></i>
+                                    <i
+                                        class="mdi mdi-star{% if product.avarage_rating < 4 %}-outline {% endif %}"></i>
+                                    <i
+                                        class="mdi mdi-star{% if product.avarage_rating < 5 %}-outline {% endif %}"></i>
+                                </span>
+                            </div>
+                            {% if product.discount_price %}
+                            <h5><del>{{product.price}} $</del> {{product.get_sale_price}} $</h5>
+                            {% else %}
+                            <h4>{{product.price}} $</h4>
+                            {% endif %}
+                            <p>{{product.content|truncatechars:100}}</p>
+                            <div class="list-btn">
+                                <a href="#">Add to cart</a>
+                                <a href="#">wishlist</a>
+                                <a href="#" data-toggle="modal"
+                                    data-target="#{{product.id}}">zoom</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- single product end -->
+
+
+
+        </div>
+    </div>
+    {% endif %}
+    {% endfor %}
+    {% endif %}
+</div>
+{%endblock%}
+{% block js %}
+<script>
+	$(document).ready(function () {
+		$(".ajaxLoader").hide();
+		$(".nese,#priceFilterBtn").on('click', function () {
+			var _filterObj = {};
+			var _minPrice = $('#maxPrice').attr('min');
+			var _maxPrice = $('#maxPrice').val();
+			_filterObj.minPrice=_minPrice;
+			_filterObj.maxPrice=_maxPrice;
+			$(".nese").each(function (index, ele) {
+				var _filterVal = $(this).val();
+				var _filterKey = $(this).data('filter');
+				// console.log(_filterKey,_filterVal)
+				_filterObj[_filterKey]=Array.from(document.querySelectorAll('input[data-filter='+_filterKey+']:checked')).map(function(el){
+					return el.value;
+				});
+			});
+			console.log(_filterObj);
+			$.ajax({
+				url:'/product/filter-data',
+				data:_filterObj,
+				dataType:'json',
+				beforeSend:function(){
+					$(".ajaxLoader").show();
+				},
+				success:function(res){
+					$("#filteredProducts").html(res.data);
+					console.log(res);
+					
+					$(".ajaxLoader").hide();
+				}
+					
+			});
+		});
+		$("#maxPrice").on('blur',function(){
+		var _min=$(this).attr('min');
+		var _max=$(this).attr('max');
+		var _value=$(this).val();
+		console.log(_value,_min,_max);
+		if(_value < parseInt(_min) || _value > parseInt(_max)){
+			alert('Values should be '+_min+'-'+_max);
+			$(this).val(_min);
+			$(this).focus();
+			$("#rangeInput").val(_min);
+			return false;
+		}
+	});
+	});
+
+	
+</script>
+
+{% endblock %}

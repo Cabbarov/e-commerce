@@ -1,0 +1,521 @@
+{% extends "core/base.html" %} 
+{% load static %}
+{% block content %}
+        <!-- pages-title-start -->
+		<div class="pages-title section-padding">
+			<div class="container">
+				<div class="row">
+					<div class="col-xs-12">
+						<div class="pages-title-text text-center">
+							<h2>{{product.title}}</h2>
+							<ul class="text-left">
+								<li><a href="#">Home </a></li>
+								<li><span> // </span><a href="{% url 'product-list' %}">shop </a></li>
+								<li><span> // </span>{{product.title}}</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- pages-title-end -->
+        <!-- product-details-section-start -->
+		<div class="product-details pages section-padding-top">
+			<div class="container">
+				<div class="row">
+					<div class="single-list-view">
+						<div class="col-xs-12 col-sm-5 col-md-4">
+							<div class="quick-image">
+								<div class="single-quick-image text-center">
+									<div class="list-img">
+										<div class="product-img tab-content">
+											<div class="simpleLens-container tab-pane fade in" id="sin-1">
+												<div class="pro-type">
+													<span>new</span>
+												</div>
+												<a class="simpleLens-image" data-lens-image="img/products/z1.jpg" href="#"><img src="{% static 'img/products/z1.jpg' %}" alt="" class="simpleLens-big-image"></a>
+											</div>
+											<div class="simpleLens-container tab-pane active fade in" id="sin-2">
+												<div class="pro-type sell">
+													{% if product.tags.first != None %}
+														<span>{{product.tags.first}}</span>
+													{% else %}
+													<span>New</span>
+													{% endif %}
+												</div>
+												<a class="simpleLens-image" data-lens-image="{{product.cover_image.url}}" href="#"><img id="product-image" src="{{product.cover_image.url}}" alt="" class="simpleLens-big-image"></a>
+											</div>
+											<div class="simpleLens-container tab-pane fade in" id="sin-3">
+												<div class="pro-type">
+													<span>-15%</span>
+												</div>
+												<a class="simpleLens-image" data-lens-image="img/products/z3.jpg" href="#"><img src="{% static 'img/products/z3.jpg' %}" alt="" class="simpleLens-big-image"></a>
+											</div>
+						
+											<div class="simpleLens-container tab-pane fade in" id="sin-4">
+												<div class="pro-type">
+													<span>new</span>
+												</div>
+												<a class="simpleLens-image" data-lens-image="img/products/z4.jpg" href="#"><img src="" alt="" class="simpleLens-big-image"></a>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="quick-thumb">
+									<ul class="product-slider">
+										{% for image in product.small_image.all %}
+										<li><a data-toggle="tab" href="#sin-1"> <img src="{{image.small_image.url}}" alt="quick view" /> </a></li>
+										{% endfor %}
+									</ul>
+								</div>
+							</div>
+						</div>
+						<div class="col-xs-12 col-sm-7 col-md-8">
+							<div class="quick-right">
+								<div class="list-text">
+									<h3 id="product-title">{{product.category.title}}’S {{product.title}}</h3>
+									<span>{{product.description}}</span>
+									<div class="ratting floatright">
+										<p>( {{product.reviews.count}} Rating )</p>
+										<span class="floatright ratting">
+											<i class="mdi mdi-star{% if product.avarage_rating < 1 %}-outline {% endif %}"></i>
+											<i class="mdi mdi-star{% if product.avarage_rating < 2 %}-outline {% endif %}"></i>
+											<i class="mdi mdi-star{% if product.avarage_rating < 3 %}-outline {% endif %}"></i>
+											<i class="mdi mdi-star{% if product.avarage_rating < 4 %}-outline {% endif %}"></i>
+											<i class="mdi mdi-star{% if product.avarage_rating < 5 %}-outline {% endif %}"></i>
+										</span>
+									</div>
+									{% if product.discount_price %}
+									<h5><del class="product-price">{{product.price}} $</del> {{product.get_final_price}} $</h5>
+									{% else %}
+									<h4 id="product-price">{{product.price}} $</h4>
+									{% endif %}
+									<p>{{product.content|truncatewords:100}}</p>
+									<div class="all-choose">
+										<div class="s-shoose">
+											<h5>Color</h5>
+											<div class="color-select clearfix">
+												{% for color in product.color.all %}
+													<input id="changecolor" type="hidden" value="">
+													<span id="{{color}}" style="background-color:{{color}}" onClick="colorClick(this.id)"></span>											
+												{% endfor %}
+											</div>
+										</div>
+										<div class="s-shoose">
+											{% for properity in category_properities %}
+											<h5>{{properity.title}}</h5>
+											{% endfor %}
+											<div class="size-drop">
+												<div class="btn-group" onclick="toggleItems()" >
+													<button id="pickedsize" style="width: 40px;" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="true">{{product.properity_options.first.title}}</button>
+													<ul class="dropdown-menu" role="menu">
+														{% for option in product.properity_options.all %}
+													   <li>
+														<div style="margin-left:1px">
+														  <label style="margin-left:2px; margin-right:30px;" class="checkbox-inline">{{option.title}}</label>
+														</div>
+													   </li>
+													   {% endfor %}
+												</div>
+											</div>
+										</div>
+						
+										<div class="s-shoose">
+											<h5>qty</h5>
+											<form action="#" method="POST">
+												<div class="plus-minus">
+													<a class="dec qtybutton">-</a>
+													<input type="text" value="1" name="qtybutton" class="plus-minus-box" id="product-quantity">
+													<a class="inc qtybutton">+</a>
+												</div>
+											</form>
+										</div>
+									</div>
+									<div class="list-btn" style="display: flex;">
+										<form action="#" method="post" id="addtocart-form" class="addtocart-form">
+											{% csrf_token %}
+										<input type="submit" name="addtocart" id="addtocart" value="Add To Cart" data-product="{{product.id}}">
+										</form>
+										<form action="#" method="post" id="addtowishlist-form">
+											{% csrf_token %}
+										<input type="submit"  id="addtoWish" value="Wishlist" data-product={{product.id}} data-action="add">
+										</form>
+										<input type="submit" id="Zoom" data-toggle="modal" data-target="#quick-view" value="Zoom">
+										
+									</div>
+									<div class="share-tag clearfix">
+										<ul class="blog-share floatleft">
+											<li><h5>share </h5></li>
+											<li><a href="#"><i class="mdi mdi-facebook"></i></a></li>
+											<li><a href="#"><i class="mdi mdi-twitter"></i></a></li>
+											<li><a href="#"><i class="mdi mdi-linkedin"></i></a></li>
+											<li><a href="#"><i class="mdi mdi-vimeo"></i></a></li>
+											<li><a href="#"><i class="mdi mdi-dribbble"></i></a></li>
+											<li><a href="#"><i class="mdi mdi-instagram"></i></a></li>
+										</ul>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- single-product item end -->
+				<!-- reviews area start -->
+				<div class="row">
+					<div class="col-xs-12">
+						<div class="reviews padding60 margin-top">
+							<ul class="reviews-tab clearfix">
+								<li><a data-toggle="tab" href="#moreinfo">more info</a></li>
+								<li class="active"><a data-toggle="tab" href="#reviews">Reviews</a></li>
+								<li><a data-toggle="tab" href="#tags">tags</a></li>
+							</ul>
+							<div class="tab-content">
+								<div class="info-reviews moreinfo tab-pane fade in" id="moreinfo">
+									<p>{{product.more_info}}</p>
+								</div>
+								<div class="info-reviews review-text tab-pane fade in active" id="reviews">
+
+									{% for rs in product.reviews.all %}
+									<div class="about-author">
+										<div class="autohr-text">
+											<img src="{% static 'img/blog/author1.png' %}" alt="" />
+											<div class="author-des" style="height: 15rem;">
+												<h4><a href="#">{{rs.name}}</a></h4>
+												<span class="floatright ratting">
+													<i class="mdi mdi-star{% if rs.rate < 1 %}-outline {% endif %}"></i>
+													<i class="mdi mdi-star{% if rs.rate < 2 %}-outline {% endif %}"></i>
+													<i class="mdi mdi-star{% if rs.rate < 3 %}-outline {% endif %}"></i>
+													<i class="mdi mdi-star{% if rs.rate < 4 %}-outline {% endif %}"></i>
+													<i class="mdi mdi-star{% if rs.rate < 5 %}-outline {% endif %}"></i>
+												</span>
+												<span>{{rs.created_at}}</span>
+												<p>{{rs.description}}</p>
+											</div>
+											
+										</div>
+									</div>
+									{% endfor %}
+									<hr />
+									
+
+									<div class="your-rating log-title">
+										<h3>leave your review</h3>
+										<h5>Your rating</h5>
+										<div class="rating clearfix">
+											<ul>
+												<li id="u1">
+													<a href="#1">
+
+														<i class="mdi mdi-star-outline"></i>
+													</a>
+													
+													<span>|</span>
+												</li>
+												<li id="u12" class="ulduzlar" style="display: none;">
+													
+													<a href="#1">
+														<i class="mdi mdi-star"></i>
+													</a>
+													
+													<span>|</span>
+												</li>
+												<li id="u2">
+													<a href="#2">
+														<i class="mdi mdi-star-outline"></i>
+														<i class="mdi mdi-star-outline"></i>
+													</a>
+													<span>|</span>
+												</li>
+												<li id="u22" class="ulduzlar" style="display: none;">
+													
+													<a href="#2">
+														<i class="mdi mdi-star"></i>
+														<i class="mdi mdi-star"></i>
+													</a>
+													<span>|</span>
+												</li>
+												<li id="u3">
+													<a href="#3">
+														<i class="mdi mdi-star-outline"></i>
+														<i class="mdi mdi-star-outline"></i>
+														<i class="mdi mdi-star-outline"></i>
+													</a>
+													<span>|</span>
+												</li>
+												<li id="u32" class="ulduzlar" style="display: none;">
+													
+													<a href="#3">
+														<i class="mdi mdi-star"></i>
+														<i class="mdi mdi-star"></i>
+														<i class="mdi mdi-star"></i>
+													</a>
+													<span>|</span>
+												</li>
+												<li id="u4">
+													<a href="#4">
+														<i class="mdi mdi-star-outline"></i>
+														<i class="mdi mdi-star-outline"></i>
+														<i class="mdi mdi-star-outline"></i>
+														<i class="mdi mdi-star-outline"></i>
+													</a>
+													<span>|</span>
+												</li>
+												<li id="u42" class="ulduzlar" style="display: none;">
+													
+													<a href="#4">
+														<i class="mdi mdi-star"></i>
+														<i class="mdi mdi-star"></i>
+														<i class="mdi mdi-star"></i>
+														<i class="mdi mdi-star"></i>
+													</a>
+													<span>|</span>
+												</li>
+												<li id="u5">
+													<a href="#5">
+														<i class="mdi mdi-star-outline"></i>
+														<i class="mdi mdi-star-outline"></i>
+														<i class="mdi mdi-star-outline"></i>
+														<i class="mdi mdi-star-outline"></i>
+														<i class="mdi mdi-star-outline"></i>
+													</a>
+												</li>
+												<li id="u52" class="ulduzlar" style="display: none;">
+													
+													<a href="#5">
+														<i class="mdi mdi-star"></i>
+														<i class="mdi mdi-star"></i>
+														<i class="mdi mdi-star"></i>
+														<i class="mdi mdi-star"></i>
+														<i class="mdi mdi-star"></i>
+													</a>
+												</li>
+											</ul>
+										</div>
+									</div>
+									<div class="custom-input">
+										<form action="" method="POST">
+											<div class="row">
+												{% csrf_token %}				
+														{{ form.rate }}
+												<div class="col-sm-6">
+													<div class="input-mail">
+														{{ form.name }}
+													</div>
+												</div>
+												<div class="col-sm-6">
+													<div class="input-mail">
+														{{ form.email}}
+													</div>
+												</div>
+												<div class="col-xs-12">
+													<div class="custom-mess">
+														{{ form.description }}
+													</div>
+												</div>
+												<div class="col-xs-12">
+													<div class="submit-text">
+														<button type="submit">submit review</button>
+													</div>
+												</div>
+											</div>
+										</form>
+									</div>
+								</div>
+								<div class="info-reviews tags tab-pane fade in" id="tags">
+									{% for tag in product.tags.all %}
+									<a href="#" class="badge badge-success">{{tag.title}}</a>
+									{% endfor %}
+									<p></p>								
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- reviews area end -->
+			</div>
+		</div>
+		<!-- product-details section end -->
+        <!-- related-products section start -->
+		<section class="single-products section-padding">
+			<div class="container">
+				<div class="row">
+					<div class="col-xs-12">
+						<div class="section-title text-center">
+							<h2>related Products</h2>
+						</div>
+					</div>
+				</div>
+				<div class="row text-center">
+					{% for related_product in related_products %}
+						<div class="col-xs-12 col-sm-6 col-md-3">
+							<div class="single-product">
+								<div class="product-img">
+									<div class="pro-type">
+										<span>new</span>
+									</div>
+									<a href="#"><img src="{{related_product.cover_image.url}}" alt="Product Title" /></a>
+									<div class="actions-btn">
+										<a href="#"><i class="mdi mdi-cart"></i></a>
+										<a href="#" data-toggle="modal" data-target="#quick-view"><i class="mdi mdi-eye"></i></a>
+										<a href="#"><i class="mdi mdi-heart"></i></a>
+									</div>
+								</div>
+								<div class="product-dsc">
+									<p><a href="#">{{related_product.title}}</a></p>
+									<span>{{related_product.price}} $</span>
+								</div>
+							</div>
+						</div>
+					{% endfor %}
+				</div>
+			</div>
+		</section>
+		<!-- related-products section end -->
+        <!-- quick view start -->
+		<div class="product-details quick-view modal animated zoomInUp" id="singlemodal">
+			<div class="container">
+				<div class="row">
+					<div class="col-xs-12">
+						<div class="d-table">
+							<div class="d-tablecell">
+								<div class="modal-dialog">
+									<div class="main-view modal-content">
+										<div class="modal-footer" data-dismiss="modal">
+											<span>x</span>
+										</div>
+										<div class="row">
+											<div class="col-xs-12 col-sm-5 col-md-4">
+												<div class="quick-image">
+													<div class="single-quick-image text-center">
+														<div class="list-img">
+															<div class="product-img tab-content">
+																<div class="simpleLens-container tab-pane fade in" id="sin-1">
+																	<div class="pro-type">
+																		<span>new</span>
+																	</div>
+																	<a class="simpleLens-image" data-lens-image="img/products/z1.jpg" href="#"><img src="{% static 'img/products/z1.jpg' %}" alt="" class="simpleLens-big-image"></a>
+																</div>
+																<div class="simpleLens-container tab-pane active fade in" id="sin-2">
+																	<div class="pro-type sell">
+																		{% if product.tags.first != None %}
+																			<span>{{product.tags.first}}</span>
+																		{% else %}
+																		<span>New</span>
+																		{% endif %}
+																	</div>
+																	<a class="simpleLens-image" data-lens-image="{{product.cover_image.url}}" href="#"><img id="product-image" src="{{product.cover_image.url}}" alt="" class="simpleLens-big-image"></a>
+																</div>
+																<div class="simpleLens-container tab-pane fade in" id="sin-3">
+																	<div class="pro-type">
+																		<span>-15%</span>
+																	</div>
+																	<a class="simpleLens-image" data-lens-image="img/products/z3.jpg" href="#"><img src="{% static 'img/products/z3.jpg' %}" alt="" class="simpleLens-big-image"></a>
+																</div>
+											
+																<div class="simpleLens-container tab-pane fade in" id="sin-4">
+																	<div class="pro-type">
+																		<span>new</span>
+																	</div>
+																	<a class="simpleLens-image" data-lens-image="img/products/z4.jpg" href="#"><img src="" alt="" class="simpleLens-big-image"></a>
+																</div>
+															</div>
+														</div>
+													</div>
+													<div class="quick-thumb">
+														<ul class="product-slider">
+															{% for image in product.small_images.all %}
+															<li><a data-toggle="tab" href="#sin-1"> <img src="{{image.small_images.url}}" alt="quick view" /> </a></li>
+															{% endfor %}
+														</ul>
+													</div>
+												</div>
+											</div>
+											<div class="col-xs-12 col-sm-7 col-md-8">
+												
+												<div class="quick-right">
+													<div class="list-text">
+														<h3>{{product.category.title}}’S {{product.title}}</h3>
+														<span>{{product.description}}</span>
+														<div class="ratting floatright">
+															<p>( {{product.reviews.count}} Rating )</p>
+															<span class="floatright ratting">
+																<i class="mdi mdi-star{% if product.avarage_rating < 1 %}-outline {% endif %}"></i>
+																<i class="mdi mdi-star{% if product.avarage_rating < 2 %}-outline {% endif %}"></i>
+																<i class="mdi mdi-star{% if product.avarage_rating < 3 %}-outline {% endif %}"></i>
+																<i class="mdi mdi-star{% if product.avarage_rating < 4 %}-outline {% endif %}"></i>
+																<i class="mdi mdi-star{% if product.avarage_rating < 5 %}-outline {% endif %}"></i>
+															</span>
+														</div>
+														{% if product.discount_price %}
+														<h5><del class="product-price">{{product.price}} $</del> {{product.get_sale_price}} $</h5>
+														{% else %}
+														<h4 id="product-price">{{product.price}} </h4>
+														{% endif %}
+														<p>{{product.content|truncatechars:140}}</p>
+														<div class="all-choose">
+															<div class="s-shoose">
+																<h5>Color</h5>
+																<div class="color-select clearfix">
+																	{% for color in product.color.all %}
+																		<span id="product-color" style="background-color:{{color}}"></span>											
+																	{% endfor %}
+																</div>
+															</div>
+															<div class="s-shoose">
+																<h5>size</h5>
+													<div class="size-drop">
+														<div class="btn-group">
+															<button type="button" class="btn">{{product.properity_options.first.name}}</button>
+															<button type="button" class="btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+																<span class=""><i class="mdi mdi-chevron-down"></i></span>
+															</button>
+															<ul class="dropdown-menu">
+																{% for option in product.properity_options.all %}
+																<li><a href="#">{{option.name}}</a></li>
+																{% endfor %}
+															</ul>
+														</div>
+													</div>
+															</div>
+															<div class="s-shoose">
+																<h5>qty</h5>
+																<form action="#" method="POST">
+																	<div class="plus-minus">
+																		<a class="dec qtybutton">-</a>
+																		<input type="text" value="02" name="qtybutton"
+																			class="plus-minus-box">
+																		<a class="inc qtybutton">+</a>
+																	</div>
+																</form>
+															</div>
+														</div>
+														<div class="list-btn">
+															<input type="submit"  id="addtoCart" onclick="addToCart({{product.id}})" value="Add To Cart" >
+															<a href="#">wishlist</a>
+														</div>
+														<div class="share-tag clearfix">
+															<ul class="blog-share floatleft">
+																<li>
+																	<h5>share </h5>
+																</li>
+																<li><a href="#"><i class="mdi mdi-facebook"></i></a></li>
+																<li><a href="#"><i class="mdi mdi-twitter"></i></a></li>
+																<li><a href="#"><i class="mdi mdi-linkedin"></i></a></li>
+																<li><a href="#"><i class="mdi mdi-vimeo"></i></a></li>
+																<li><a href="#"><i class="mdi mdi-dribbble"></i></a></li>
+																<li><a href="#"><i class="mdi mdi-instagram"></i></a></li>
+															</ul>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+{% endblock %}
